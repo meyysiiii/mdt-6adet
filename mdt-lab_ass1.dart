@@ -69,6 +69,13 @@ String passwordGenerator() {
       .join();
 }
 
+bool validateEmail(String email) {
+  // Regular expression for validating an Email
+  String pattern = r'^[a-zA-Z0-9.\-]+@[a-zA-Z0-9]+\.[a-zA-Z]+$';
+  RegExp regex = RegExp(pattern);
+  return regex.hasMatch(email);
+}
+
 void loginAndChangePassword(String email) {
   String temporaryPass = passwordGenerator();
   print('--> Your temporary password is: $temporaryPass');
@@ -104,8 +111,17 @@ void main() {
     stdout.write('Enter your name --> ');
     String name = stdin.readLineSync()!;
 
-    stdout.write('Enter your email --> ');
-    String email = stdin.readLineSync()!;
+    bool isNotEmail = true;
+    String email = "";
+    while (isNotEmail) {
+      stdout.write('Enter your email --> ');
+      email = stdin.readLineSync()!;
+      if (!validateEmail(email)) {
+        print("Please enter valid email");
+      } else {
+        isNotEmail = false;
+      }
+    }
 
     if (status == 1) {
       stdout.write('Enter your employee number --> ');
